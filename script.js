@@ -1,111 +1,65 @@
-let searchbtn = document.querySelector(".search");
-let usernameinp = document.querySelector(".usernameinp");
-let Card = document.querySelector(".Card");
-
-function userdata(username) {
-  return fetch(`https://api.github.com/users/${username}`).then((raw) => {
-    if (raw.ok) {
-      return raw.json();
-    } else {
-      alert("User not found!!");
-      
-    }
+function getuserdata(user,a) {
+    // console.log(a);
+    
+    
+  return fetch(`https://api.github.com/users/${user}`).then(function (raw) {
+    if (!raw.ok) throw new Error("Error while fetching user details....");
+    return raw.json();
   });
 }
 
-function userrepo(d) {
-  return fetch(`https://api.github.com/users/${d}/repos?sort=updated`).then(
-    (raw) => {
-      if (!raw.ok) alert("unable to get info of repo...")
-      return raw.json();
-    }
-  );
-}
+let usernameinp = document.querySelector(".usernameinp");
+let searchbtn = document.querySelector("#searchbtn");
+let  div = document.querySelector(".divrender")
 
-function rending(details) {
-  console.log(details);
 
-  let data = `<div class="bg-gray-900/70 border border-gray-800 rounded-2xl p-8 flex items-start gap-6 shadow-2xl backdrop-blur-lg animate-fade-in">
-  <!-- Avatar -->
-  <div class="relative">
-    <img
-      src="${details.avatar_url}"
-      alt="Avatar"
-      class="w-28 h-28 rounded-full border-4 border-gradient-to-tr from-blue-500 to-purple-600 shadow-xl"
-    />
-    <div class="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-gray-900"></div>
-  </div>
+function dataRendering(details,a) {
+    console.log(a);
+    console.log(details);
+    
+  let data = `  <img
+        id="avatar"
+        src=${details.avatar_url}
+        alt="Avatar"
+        class="w-40 h-40 rounded-full border-4 border-blue-500 shadow-2xl neon-border"
+      />
+    </div>
 
-  <!-- Info -->
-  <div class="text-white w-full">
-    <h2 class="text-3xl font-bold mb-1">${
-      details.name || "No Name Provided"
-    }</h2>
-    <p class="text-sm text-gray-400 mb-3 italic">${
-      details.bio || "No bio available."
-    }</p>
+    <!-- Info -->
+    <div class="flex-1 space-y-3">
+      <h2 id="name" class="text-3xl font-bold text-white">${details.name}</h2>
+      <p id="bio" class="text-gray-300 italic">${details.bio}</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-300">
+        <p><span class="text-white font-semibold">Username:</span> <span id="login">${username}</span></p>
+        <p><span class="text-white font-semibold">Company:</span> <span id="company">${details.company || ""}</span></p>
+        <p><span class="text-white font-semibold">Location:</span> <span id="location">${details.location || ""}</span></p>
+        <p><span class="text-white font-semibold">Website:</span> <a id="blog" href="#" class="text-blue-400 hover:underline">github.blog</a></p>
+        <p><span class="text-white font-semibold">Email:</span> <span id="email">${details.email || "N/A"}</span></p>
+        <p><span class="text-white font-semibold">Id:</span> <span id="id">${details.id || "N/A"}</span></p>
+        <p><span class="text-white font-semibold">Public Repos:</span> <span id="repos">${details.public_repos || ""}</span></p>
+        <p><span class="text-white font-semibold">Followers:</span> <span id="followers">${details.follwers || "0"}</span></p>
+        <p><span class="text-white font-semibold">Following:</span> <span id="following">${details.following || "0"}</span></p>
+        <p><span class="text-white font-semibold">Url:</span> <span id="hireable">${details.url || "N/A"}</span></p>
+        // <p><span class="text-white font-semibold">Created At:</span> <span id="created">${details.created_at || "N/A"}</span></p>
+        <p><span class="text-white font-semibold">GitHub:</span>
+          <a id="profile-link" href="https://github.com/octocat" target="_blank" class="text-blue-400 hover:underline">
+            github.com/octocat
+          </a>
+        </p>
+      </div>
+    </div>`;
 
-    <ul class="text-gray-300 text-sm space-y-2">
-      <li><span class="font-bold text-amber-300">👤 Username:</span> ${
-        details.login
-      }</li>
-      <li><span class="font-semibold">📂 Public Repos:</span> ${
-        details.public_repos
-      }</li>
-      <li><span class="font-semibold">👥 Followers:</span> ${
-        details.followers
-      }</li>
-      <li><span class="font-semibold">👣 Following:</span> ${
-        details.following
-      }</li>
-      <li><span class="font-semibold">🏢 Company:</span> ${
-        details.company || "Not Mentioned"
-      }</li>
-      <li><span class="font-semibold">📍 Location:</span> ${
-        details.location || "Not Mentioned"
-      }</li>
-      <li><span class="font-semibold">🕓 Joined:</span> ${new Date(
-        details.created_at
-      ).toLocaleDateString()}</li>
-      ${
-        details.blog
-          ? `<li><span class="font-semibold">🔗 Blog:</span> <a href="${details.blog}" target="_blank" class="text-blue-400 hover:underline">${details.blog}</a></li>`
-          : ""
-      }
-      ${
-        details.twitter_username
-          ? `<li><span class="font-semibold">🐦 Twitter:</span> <a href="https://twitter.com/${details.twitter_username}" target="_blank" class="text-blue-400 hover:underline">@${details.twitter_username}</a></li>`
-          : ""
-      }
-      ${
-        details.email
-          ? `<li><span class="font-semibold">📧 Email:</span> <a href="mailto:${details.email}" class="text-blue-400 hover:underline">${details.email}</a></li>`
-          : ""
-      }
-      <li>
-        <span class="font-semibold">🌐 Profile:</span>
-        <a href="${
-          details.html_url
-        }" target="_blank" class="text-blue-400 hover:underline">
-          ${details.html_url}
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
-`;
-
-  Card.innerHTML = data;
+    div.innerHTML=data;
 }
 
 searchbtn.addEventListener("click", function () {
   username = usernameinp.value.trim();
+  let he ="dkjfkdjf"
   if (username.length > 0) {
-    userdata(username).then(function (data) {
-      rending(data);
-      
+    getuserdata(username,he).then(function (details) {
+      dataRendering(details,he);
     });
   } else {
-    alert("Please enter username!");
+    alert("Please enter username.");
   }
 });

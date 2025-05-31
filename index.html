@@ -1,42 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>GitHub User Lookup</title>
-     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<html lang="en" class="bg-gradient-to-br from-gray-900 via-black to-gray-950 text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub User Search</title>
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .neon-border {
+      box-shadow: 0 0 15px #3b82f6, 0 0 30px #3b82f6;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-start min-h-screen py-10 px-4 space-y-10 font-sans">
 
-  </head>
-  <body class="bg-gray-950 text-white min-h-screen flex items-center justify-center px-6 py-12">
-    <div class="w-full max-w-3xl space-y-10">
-      <!-- Heading -->
-      <h1 class="text-center text-4xl font-bold text-white">🔍 GitHub User Finder</h1>
+  <!-- Heading -->
+  <h1 class="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-pulse">
+    GitHub Profile Finder 🔍
+  </h1>
 
-      <!-- Search Form (just redirects to GitHub user profile) -->
-      <!-- <form
-        
-        
-        
-        class="flex bg-gray-900 rounded-xl shadow-lg overflow-hidden border border-gray-800"
-      > -->
-        <input
-          
-          name=""
-          placeholder="Enter GitHub username..."
-          class=" usernameinp flex-grow w-[30em]  px-5 py-4 text-lg bg-gray-900 text-white placeholder-gray-500 focus:outline-none"
-          
-        />
-        <button
-        
-          class="search bg-blue-600 rounded-2xl hover:bg-blue-700 px-6 py-4 font-semibold text-lg transition"
-        >
-          Search
-        </button>
-      <!-- </form> -->
-
-      <!-- Static Demo User Card -->
-       <div class="Card"></div>
-     
+  <!-- Search -->
+  
+    <div class="flex bg-white/10 rounded-full shadow-lg overflow-hidden">
+      <input
+        class="usernameinp"
+        type="text"
+        placeholder="Type GitHub username..."
+        class="flex-grow px-6 py-3 text-white bg-transparent placeholder-gray-400 focus:outline-none"
+      />
+      <button
+        id="searchbtn"
+        type="submit"
+        class="px-6 bg-blue-600 hover:bg-blue-700 font-semibold text-white rounded-r-full"
+      >
+        Search
+      </button>
     </div>
-    <script src="script.js"></script>
-  </body>
+  
+
+  <!-- Profile Card -->
+  <div class="glass max-w-5xl w-full rounded-3xl p-8 shadow-xl neon-border transition-all duration-500 flex flex-col md:flex-row gap-8">
+
+    <!-- Avatar -->
+    <div class="divrender flex justify-center items-center">
+    
+  </div>
+  <script src="script.js"></script>
+
+</body>
 </html>
